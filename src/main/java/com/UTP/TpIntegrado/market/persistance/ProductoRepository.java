@@ -49,8 +49,11 @@ public class ProductoRepository  implements ProductRepository {
     //Funcion Actualizada
     @Override
     public Product save(Product product) {
-         Producto producto = mapper.toProducto(product);
-         return mapper.toProduct(productoCrudRepository.save(producto));
+        Producto producto = mapper.toProducto(product);
+        if (producto.getIdProducto() != null && producto.getIdProducto() == 0) {
+            producto.setIdProducto(null);
+        }
+        return mapper.toProduct(productoCrudRepository.save(producto));
     }
 
     public void delete(int idProducto) {
