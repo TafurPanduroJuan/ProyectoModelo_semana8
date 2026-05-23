@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/productos")
+@RequestMapping("/products")
 @CrossOrigin(origins = "*")
 public class ProductoController {
 
     @Autowired
     private ProductService productService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Product>> getAll() {
         return ResponseEntity.ok(productService.getAll());
     }
@@ -25,18 +25,18 @@ public class ProductoController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {
         return productService.getProduct(id)
-                .map(product -> ResponseEntity.ok(product))
+                .map(p -> ResponseEntity.ok(p))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/categoria/{categoryId}")
+    @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<Product>> getByCategory(@PathVariable int categoryId) {
         return productService.getByCategory(categoryId)
-                .map(products -> ResponseEntity.ok(products))
+                .map(p -> ResponseEntity.ok(p))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<Product> save(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
